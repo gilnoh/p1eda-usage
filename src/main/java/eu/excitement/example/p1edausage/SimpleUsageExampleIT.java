@@ -12,11 +12,11 @@ import org.apache.commons.io.FileUtils;
 
 import eu.excitementproject.eop.alignmentedas.p1eda.P1EDATemplate;
 import eu.excitementproject.eop.alignmentedas.p1eda.TEDecisionWithAlignment;
-import eu.excitementproject.eop.alignmentedas.p1eda.instances.SimpleWordCoverageEN;
+import eu.excitementproject.eop.alignmentedas.p1eda.instances.SimpleWordCoverageIT;
 import eu.excitementproject.eop.common.EDAException;
 import eu.excitementproject.eop.lap.LAPAccess;
 import eu.excitementproject.eop.lap.LAPException;
-import eu.excitementproject.eop.lap.dkpro.TreeTaggerEN;
+import eu.excitementproject.eop.lap.dkpro.TreeTaggerIT;
 
 /**
  * The class shows how you can access P1EDA (the alignment EDA, phase-1) when 
@@ -33,13 +33,12 @@ import eu.excitementproject.eop.lap.dkpro.TreeTaggerEN;
  * @author Tae-Gil Noh
  *
  */
-public class SimpleUsageExampleEN {
+public class SimpleUsageExampleIT {
 	
 	// NOTE: before running the example --- 
-	// please set correct WordNet and VerbOcean path: 
-	// modify the following two lines for your own environment. 
-	private static final String wordNetDirPath = "/Users/tailblues/eop-resources-1.1.4/ontologies/EnglishWordNet-dict";
-	private static final String verbOceanFilePath = "/Users/tailblues/eop-resources-1.1.4/VerbOcean/verbocean.unrefined.2004-05-20.txt";
+	// please set correct Italian WordNet path
+	// modify the following line for your own environment. 
+	private static final String itWordNetDirPath = "/Users/tailblues/eop-resources-1.1.4/ontologies/ItalianWordNet-dict";
 	
 	public static void main (String[] args)
 	{
@@ -48,14 +47,14 @@ public class SimpleUsageExampleEN {
 
 		try {
 			// this method shows an example of training .. 
-			trainExampleEN(); // takes some minutes. 
+			trainExampleIT(); // takes some minutes. 
 			
 			// once a model is trained, you can process single pairs ... this method 
 			// shows how you can do that. 
-			singlePairTestExampleEN();  
+			singlePairTestExampleIT();  
 			
 			// or you can evaluate the model on a test set. 
-			evaluationExampleEN(); // also takes some minutes. 
+			evaluationExampleIT(); // also takes some minutes. 
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -66,30 +65,29 @@ public class SimpleUsageExampleEN {
 	/**
 	 * This method shows how you can train with an instance of P1EDA. 
 	 */
-	public static void trainExampleEN() throws EDAException, LAPException, IOException
+	public static void trainExampleIT() throws EDAException, LAPException, IOException
 	{
 		//
 		// 1. prepare one LAP(linguistic analysis pipeline, preprocessing) and 
 		//    one EDA (Entailment Decision Algorihthm), with P1EDA instance.  
 		
 		// here, we use a TreeTagger based pipeline ... 
-		LAPAccess lap = new TreeTaggerEN(); 
+		LAPAccess lap = new TreeTaggerIT(); 
 		
 		// initialize P1EDA instance (that of SimpleWordCoverage), with the two paths 
-		P1EDATemplate p1eda = new SimpleWordCoverageEN(wordNetDirPath, verbOceanFilePath); // Put your (configured, instance) P1EDA here... 
+		P1EDATemplate p1eda = new SimpleWordCoverageIT(itWordNetDirPath); // Put your (configured, instance) P1EDA here... 
 
 		//
 		// 2. now we have LAP and EDA. Time to do a training. 
 		// 		
-    	File rteTrainingXML = new File("src/main/resources/English_dev.xml");  // the source holds RTE3 cases here...
+    	File rteTrainingXML = new File("src/main/resources/Italian_dev.xml");  // the source holds RTE3 cases here...
     	
     	// first, we do the pre-processing of the training data set, (running TreeTagger) 
     	File trainXmiDir = new File("target/trainingXmis/");   // each annotated pair will be stored here... 
 		runLAPForXmis(lap, rteTrainingXML, trainXmiDir); 
 		
 		// now we are ready to ask the P1EDA instance for training. 
-		// the following will take some time --- especially for English, wordNet APIs are
-		// fairly slow... (10 - 20 min) 
+		// this takes some time 
 		File classifierModel = new File ("target/p1eda.trained.model"); 
 		p1eda.startTraining(trainXmiDir, classifierModel); // first argument: where is the annotated training data? 
 														   // second argument: the new model file to be generated. 
@@ -98,39 +96,40 @@ public class SimpleUsageExampleEN {
 		// generated on the specified path. next two examples will use that model file. 
 		System.out.println("The training is complete, and the resulting trained-model file has been stored in the given path"); 
 	}
+	
 	/**
 	 * this method shows how you can load a trained model, and ask the EDA to process 
 	 * one pair of Text-Hypothesis. 
 	 */
-	public static void singlePairTestExampleEN() throws EDAException, LAPException, IOException
+	public static void singlePairTestExampleIT() throws EDAException, LAPException, IOException
 	{
 		// prepare LAP and P1EDA instance ... 
-		LAPAccess lap = new TreeTaggerEN(); 
-		P1EDATemplate p1eda = new SimpleWordCoverageEN(wordNetDirPath, verbOceanFilePath); 
+		LAPAccess lap = new TreeTaggerIT(); 
+		P1EDATemplate p1eda = new SimpleWordCoverageIT(itWordNetDirPath); 
 		
 		// Load the pre-trained model... 
 		p1eda.initialize(new File("target/p1eda.trained.model"));
 		
-		// Okay, time generate an annotated T-H pair. Note that, the P1EDA (SimpleWordCoverageEN) 
-		// minimally requires "Token", "Lemma", and "POS" annotations. TreeTaggerEN lap does 
+		// Okay, time generate an annotated T-H pair. Note that, the P1EDA (SimpleWordCoverage) 
+		// minimally requires "Token", "Lemma", and "POS" annotations. TreeTagger lap does 
 		// provide all of them. So... 
 		
-		JCas aJCas = lap.generateSingleTHPairCAS("Claude Chabrol (born June 24, 1930) is a French movie director and has become well-known in the 40 years since his first film, Le Beau Serge, for his chilling tales of murder, including Le Boucher.", "Le Boucher was made by a French movie director."); 
+		JCas aJCas = lap.generateSingleTHPairCAS("Tripontium era inizialmente un posto di frontiera militare, fondato subito dopo l'invasione romana della Britannia intorno al 50 a.C.", "I romani arrivarono in Britannia intorno al 50 a.C."); 
 		TEDecisionWithAlignment decision = p1eda.process(aJCas); // this call makes EDA to do the decision.  
 		
 		System.out.println("The decision was: " + decision.getDecision().toString()); 
 		System.out.println("The confidence was: " + decision.getConfidence()); 
 	}
 	
-	public static void evaluationExampleEN() throws EDAException, LAPException, IOException
+	public static void evaluationExampleIT() throws EDAException, LAPException, IOException
 	{
 		// prepare LAP and P1EDA instance, and load model. 
-		LAPAccess lap = new TreeTaggerEN(); 
-		P1EDATemplate p1eda = new SimpleWordCoverageEN(wordNetDirPath, verbOceanFilePath); 
+		LAPAccess lap = new TreeTaggerIT(); 
+		P1EDATemplate p1eda = new SimpleWordCoverageIT(itWordNetDirPath); 
 		p1eda.initialize(new File("target/p1eda.trained.model"));
 
 		// prepare the test set ... 
-    	File rteTestingXML = new File("src/main/resources/English_test.xml");  // this file holds RTE EN test 800 pairs. 
+    	File rteTestingXML = new File("src/main/resources/Italian_test.xml");  // this file holds RTE IT test 800 pairs. 
     	
     	// pre-processing of the testing set data (this takes some time) 
     	File testingXmiDir = new File("target/testingXmis/");   // each annotated pair will be stored here... 
@@ -154,6 +153,4 @@ public class SimpleUsageExampleEN {
     	xmiDir.mkdirs();     	
     	lap.processRawInputFormat(rteInputXML, xmiDir); 
     }
-
-	
 }

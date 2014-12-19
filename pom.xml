@@ -23,6 +23,11 @@
     </plugins>
   </build> 
   <dependencies>
+	<dependency>
+		<groupId>eu.excitementproject</groupId>
+		<artifactId>common</artifactId>
+		<version>1.1.5-SNAPSHOT</version>
+	</dependency>
   	<dependency>
   		<groupId>eu.excitementproject</groupId>
   		<artifactId>alignmentedas</artifactId>
@@ -33,5 +38,32 @@
   		<artifactId>lap</artifactId>
   		<version>1.1.5-SNAPSHOT</version>
   	</dependency>
+  	
+	<!--  Tree Tagger artifacts: note that you have to install them locally (manually) on your computer
+	due to license issues. 
+	 see the following descriptions  
+	 https://github.com/hltfbk/Excitement-Open-Platform/wiki/Step-by-Step,%20TreeTagger-Installation
+	 -->
+	<dependency>
+		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+		<artifactId>de.tudarmstadt.ukp.dkpro.core.treetagger-bin</artifactId>
+		<version>20130228.0</version>
+	</dependency>
+	<dependency>
+		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+		<artifactId>de.tudarmstadt.ukp.dkpro.core.treetagger-model-de</artifactId>
+		<version>20121207.0</version>
+	</dependency>
+	<dependency>
+		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+		<artifactId>de.tudarmstadt.ukp.dkpro.core.treetagger-model-en</artifactId>
+		<version>20111109.0</version>
+	</dependency>
+	<dependency>
+		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+		<artifactId>de.tudarmstadt.ukp.dkpro.core.treetagger-model-it</artifactId>
+		<version>20101115.0</version>
+	</dependency>
+	<!--  end of Tree Tagger artifacts -->
   </dependencies>
 </project>

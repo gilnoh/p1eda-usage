@@ -22,21 +22,29 @@
       </plugin>
     </plugins>
   </build> 
+  	<repositories>
+		<repository>
+			<id>hlt-services4.fbk.eu</id>
+			<name>hlt-services4.fbk.eu-releases</name>
+			<url>http://hlt-services4.fbk.eu:8080/artifactory/releases</url>
+		</repository>
+	</repositories>
+  
   <dependencies>
 	<dependency>
 		<groupId>eu.excitementproject</groupId>
 		<artifactId>common</artifactId>
-		<version>1.1.5-SNAPSHOT</version>
+		<version>1.2.0</version>
 	</dependency>
   	<dependency>
   		<groupId>eu.excitementproject</groupId>
   		<artifactId>alignmentedas</artifactId>
-  		<version>1.1.5-SNAPSHOT</version>
+  		<version>1.2.0</version>
   	</dependency>
   	<dependency>
   		<groupId>eu.excitementproject</groupId>
   		<artifactId>lap</artifactId>
-  		<version>1.1.5-SNAPSHOT</version>
+  		<version>1.2.0</version>
   	</dependency>
   	
 	<!--  Tree Tagger artifacts: note that you have to install them locally (manually) on your computer

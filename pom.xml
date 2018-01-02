@@ -28,25 +28,31 @@
 			<name>hlt-services4.fbk.eu-releases</name>
 			<url>http://hlt-services4.fbk.eu:8080/artifactory/releases</url>
 		</repository>
+
+		<repository>
+		  <id>DKPro</id>
+		  <name>DKPro public repository</name>
+		  <url> http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases/</url>
+		</repository>
 	</repositories>
-  
+
   <dependencies>
 	<dependency>
 		<groupId>eu.excitementproject</groupId>
 		<artifactId>common</artifactId>
-		<version>1.2.0</version>
+		<version>1.2.3</version>
 	</dependency>
   	<dependency>
   		<groupId>eu.excitementproject</groupId>
   		<artifactId>alignmentedas</artifactId>
-  		<version>1.2.0</version>
+  		<version>1.2.3</version>
   	</dependency>
   	<dependency>
   		<groupId>eu.excitementproject</groupId>
   		<artifactId>lap</artifactId>
-  		<version>1.2.0</version>
+  		<version>1.2.3</version>
   	</dependency>
-  	
+
 	<!--  Tree Tagger artifacts: note that you have to install them locally (manually) on your computer
 	due to license issues. 
 	 see the following descriptions  
